@@ -74,31 +74,49 @@ For each $[\alpha,\beta]  \in \ct$,  we let
 %\item For each $\cy \in \ct$ there exists a solution operator $S(\cdot;\cy) : \cf \to \ch$, for which $S(f,\cy)$ is actually only a function of $f_{\cy}$.
 %
 %\end{itemize}
-\begin{align*}
-&  \bigl \lVert f'' \bigr \rVert_{[\alpha,\beta]} =  \bigl \lVert f''_{[\alpha,\beta] } \bigr \rVert_{\infty,[\alpha,\beta]}, \qquad S_{[\alpha,\beta]}: f \mapsto f \cdot \bbone_{[\alpha,\beta]}.
-\end{align*}
+$  \bigl \lVert f'' \bigr \rVert_{[\alpha,\beta]} =  \bigl \lVert f''_{[\alpha,\beta] } \bigr \rVert_{\infty,[\alpha,\beta]}
+$.
 
-For partitions $\cp$, there exists a function $\Phi(\cdot; \cp): \cl_{\infty}^L \to \cl_{\infty}$ that combines the solutions defined on the subsets to reconstruct the true solution:
-\[
-S(f) = \Phi(\vS_{\cp}(f)), \quad \vS_{\cp}(f):= \{S(f; [\alpha, \beta])\}_{[\alpha, \beta] \in \cp}, \qquad \forall f \in \cw^{2,\infty}.
-\]
-Here $L=\abs{\cp}$ denotes the cardinality of $\cp$.
-\begin{itemize}
-\item There exists a pair of functions $(\tPhi,\err)(\cdot,\cdot; \cp): \ch^{\abs{\cp}} \times [0,\infty)^{\abs{\cp}} \to \ch \times [0,\infty)$ that combine approximate solutions defined on the subsets with error bounds to reconstruct an approximation to the true solution. If $\bignorm[\ch]{S(f;\cy) - \tS_{\cy}} \le \varepsilon_{\cy}$ for all $\cy \in \cp$, $\tvS_{\cp} := \{\tS_{\cy}\}_{\cy \in \cp}$,  and $\tveps_{\cp} := \{\tvareps_{\cy}\}_{\cy \in \cp}$, then
-\begin{equation*}
-\Hnorm{S(f) -  \tPhi(\tvS_{\cp}, \tveps_{\cp} ;\cp)} \le \err(\tvS_{\cp}, \tveps_{\cp} ;\cp) \qquad \forall f \in \cf.
-\end{equation*}
-Here $\abs{\cp}$ denotes the cardinality of $\cp$. Moreover,
-\[
-\err(\tvS_{\cp}, \vzero ;\cp) = 0, \qquad \tPhi(\tvS_{\cp}, \vzero ;\cp) = \Phi(\vS_{\cp}(f)) = S(f).
-\]
-\end{itemize}
+For partitions $\cp$, define algorithm and error
+$$\vA(f;\cp)=\{A(f;[\alpha,\beta])\}_{[\alpha,\beta] \in \cp},  \qquad \veps_{\cp}=\{\varepsilon_{[\alpha,\beta]}\}_{[\alpha,\beta] \in \cp}.$$
+$$
+\vA(f;\cp)=\left\{
+\begin{matrix}
+A(f;[t_0,t_1]) & t_0 \le x \le t_1,\\
+A(f;[t_1,t_2]) & t_1 \le x \le t_2,\\
+\vdots & \vdots,\\
+A(f;[t_{i-1},t_i]) & t_{i-1} \le x \le t_i,\\
+\vdots & \vdots,\\
+A(f;[t_{L-1},t_L]) & t_{L-1} \le x \le t_L.\\
+\end{matrix}\right.
+$$
 
+Then our goal is
+$$ \bigl \lVert f - \vA(f;\cp) \bigr \rVert \le  \bigl \lVert \veps_{\cp} \bigr \rVert < \varepsilon. $$
+i.e.
+$$ \bigl \lVert f- A(f;[\alpha,\beta]) \bigr \rVert_{[\alpha,\beta]}  \le  \varepsilon_{[\alpha,\beta]}  < \varepsilon \qquad \forall [\alpha,\beta] \in \cp.$$
 
-\begin{align*}
-& \Phi(\tvS_{\cp};\cp) = \tPhi(\tvS_{\cp},\veps_{\cp};\cp) = \sum_{l=1}^L  \tS_{[t_{l-1},t_l]}, \\
-&\err(\tvS_{\cp},\veps_{\cp};\cp) = \norm[\infty]{\veps_{\cp}}
-\end{align*}
+%there exists a function $\Phi(\cdot; \cp): \cl_{\infty}^L \to \cl_{\infty}$ that combines the solutions defined on the subsets to reconstruct the true solution:
+%\[
+%S(f) = \Phi(\vS_{\cp}(f)), \quad \vS_{\cp}(f):= \{S(f; [\alpha, \beta])\}_{[\alpha, \beta] \in \cp}, \qquad \forall f \in \cw^{2,\infty}.
+%\]
+%Here $L=\abs{\cp}$ denotes the cardinality of $\cp$.
+%\begin{itemize}
+%\item There exists a pair of functions $(\tPhi,\err)(\cdot,\cdot; \cp): \ch^{\abs{\cp}} \times [0,\infty)^{\abs{\cp}} \to \ch \times [0,\infty)$ that combine approximate solutions defined on the subsets with error bounds to reconstruct an approximation to the true solution. If $\bignorm[\ch]{S(f;\cy) - \tS_{\cy}} \le \varepsilon_{\cy}$ for all $\cy \in \cp$, $\tvS_{\cp} := \{\tS_{\cy}\}_{\cy \in \cp}$,  and $\tveps_{\cp} := \{\tvareps_{\cy}\}_{\cy \in \cp}$, then
+%\begin{equation*}
+%\Hnorm{S(f) -  \tPhi(\tvS_{\cp}, \tveps_{\cp} ;\cp)} \le \err(\tvS_{\cp}, \tveps_{\cp} ;\cp) \qquad \forall f \in \cf.
+%\end{equation*}
+%Here $\abs{\cp}$ denotes the cardinality of $\cp$. Moreover,
+%\[
+%\err(\tvS_{\cp}, \vzero ;\cp) = 0, \qquad \tPhi(\tvS_{\cp}, \vzero ;\cp) = \Phi(\vS_{\cp}(f)) = S(f).
+%\]
+%\end{itemize}
+%
+%
+%\begin{align*}
+%& \Phi(\tvS_{\cp};\cp) = \tPhi(\tvS_{\cp},\veps_{\cp};\cp) = \sum_{l=1}^L  \tS_{[t_{l-1},t_l]}, \\
+%&\err(\tvS_{\cp},\veps_{\cp};\cp) = \norm[\infty]{\veps_{\cp}}
+%\end{align*}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,17 +128,17 @@ We use piecewise linear interpolation. The number of possible function values is
 x_j= \alpha + (\beta-\alpha) \frac{j-1}{n-1}, \qquad j=1, \ldots, n,
 \end{equation}
 \begin{multline}
-A_n(f,[\alpha,\beta]):=\\
+A_n(f;[\alpha,\beta]):=\\
 \frac{n-1}{\beta-\alpha}\left[f(x_j)(x_{j+1}-x)+f(x_{j+1})(x-x_j)\right], \qquad  x_{j}\le x \le x_{j+1}
 \end{multline}
 
 
 The difference between $f$ and its linear spline can be bounded in terms of an integral involving the second derivative using integration by parts.  For $x \in [\alpha,\beta]$ it follows that
 \begin{align}
-f(x)-A_n(f,[\alpha,\beta])(x)
+f(x)-A_n(f;[\alpha,\beta])(x)
 &= f(x) - \frac{n-1}{\beta-\alpha} \left[f(x_{j})(x_{j+1}-x) +f(x_{j+1})(x-x_j) \right] \nonumber\\
 & = \frac{n-1}{\beta-\alpha}\int_{x_j}^{x_{j+1}} v_j(t,x) f''(t) \, \dif t, \label{fintermsfdoubprime}\\
-f'(x)-A_n(f,[\alpha,\beta])'(x) & = \frac{n-1}{\beta-\alpha} \int_{x_j}^{x_{j+1}} \frac{\partial v_j}{\partial x}(t,x) f''(t) \, \dif t, \label{fprimeintermsfdoubprime}
+f'(x)-A_n(f;[\alpha,\beta])'(x) & = \frac{n-1}{\beta-\alpha} \int_{x_j}^{x_{j+1}} \frac{\partial v_j}{\partial x}(t,x) f''(t) \, \dif t, \label{fprimeintermsfdoubprime}
 \end{align}
 where the continuous, piecewise differentiable kernel $v$ is defined as
 \begin{equation*}
@@ -129,21 +147,22 @@ v_j(t,x) :=\begin{cases} (x_{j+1}-x)(x_j-t), & x_j\leq t\leq x,\\
 \end{cases}.
 \end{equation*}
 
-To derive the error bounds for $A_{n}(f,[\alpha,\beta])$ we have:
-\begin{align*}
-\norm[\infty]{f-A_{n}(f,[\alpha,\beta])}
-& \le \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n_i-1 }} \abs{f(x)-A_{n}(f,[\alpha,\beta])(x)}\\
-&= \frac{n-1}{\beta-\alpha} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }}  \int_{x_j}^{x_{j+1}} \abs{v_j(t,x) f''(t)} \, \dif t\\
-&\le \frac{n-1}{\beta-\alpha} \norm[{[\alpha, \beta]}]{f''} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }}  \int_{x_j}^{x_{j+1}} \abs{v_j(t,x)} \, \dif t\\
-&=\norm[\infty]{f''} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }}  \frac{(x-x_j)(x_{j+1}-x)}2 \\
-&= h(n,[\alpha,\beta]) \norm[{[\alpha, \beta]}]{f''}, \qquad  h(n,[\alpha,\beta]):= \frac{(\beta-\alpha)^2}{8(n-1)^2}.
-\end{align*}
+To derive the error bounds for $A_{n}(f;[\alpha,\beta])$ we have:
+\begin{align}
+\norm[{[\alpha,\beta]}]{f-A_{n}(f;[\alpha,\beta])}
+& \le \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n_i-1 }} \abs{f(x)-A_{n}(f;[\alpha,\beta])(x)}\nonumber\\
+&= \frac{n-1}{\beta-\alpha} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }}  \int_{x_j}^{x_{j+1}} \abs{v_j(t,x) f''(t)} \, \dif t \nonumber\\
+&\le \frac{n-1}{\beta-\alpha} \norm[{[\alpha, \beta]}]{f''} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }}  \int_{x_j}^{x_{j+1}} \abs{v_j(t,x)} \, \dif t\nonumber\\
+&=\norm[{[\alpha, \beta]}]{f''} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }}  \frac{(x-x_j)(x_{j+1}-x)}2 \nonumber \\
+&= \frac{(\beta-\alpha)^2}{8(n-1)^2} \norm[{[\alpha, \beta]}]{f''}. \label{fdoubprimenorm}
+\end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Functions in Cones}
-The challenge in applying the error bounds for the non-adaptive function recovery algorithm is that $ f'' \bigr \rVert_{[\alpha,\beta]} $ is not known a priori.  Our approach is to assume that the input functions lie inside cones. 
+The challenge in applying the error bounds for the non-adaptive function recovery algorithm is that $ \bigl \lVert f'' \bigr \rVert_{[\alpha,\beta]} $ is not known a priori.  Our approach is to assume that the input functions lie inside cones.
 
-For each $[\alpha, \ \beta] \in \ct$, there exists a norm $\norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}}$ on space 
+Let $\vtau_{\cp}=\{\tau_{[\alpha,\beta]}\}_{[\alpha,\beta] \in \cp}$.
+For each $[\alpha, \ \beta] \in \ct$, there exists a norm $\norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}}$ on space
 $\cw^{2,\infty}[\alpha,\beta]$ weaker than $\norm[{[\alpha, \beta]}]{f''}$.
 Here we define our cone condition
 %\begin{itemize}
@@ -173,46 +192,47 @@ Here we define our cone condition
 %
 %\end{itemize}
 \begin{equation} \label{coneappxdef}
-\cc_{\tau}:=\left\{f \in  \mathcal{W}^{2,\infty} : \norm[{[\alpha, \beta]}]{f''}\leq \frac{\tau_{[\alpha,\beta]}}{\beta-\alpha} \norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}}\right\}.
+\cc_{\vtau}:=\left\{f \in  \mathcal{W}^{2,\infty} : \norm[{[\alpha, \beta]}]{f''}\leq \frac{\tau_{[\alpha,\beta]}}{\beta-\alpha} \norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}}\right\}.
 \end{equation}
-where $\tau_{[\alpha,\beta]}$ is a parameter depend on the length of interval $[\alpha,\beta],$ and $\tau_{[\alpha,\beta]}: [0, \infty) \rightarrow [0, \infty).$
+where $\tau_{[\alpha,\beta]}$ is a parameter depend on the length of interval $[\alpha,\beta]$.\\
 
-Lower bound on $\norm[\infty,{[\alpha,\beta]}]{f''}$ can be derived similarly to the previous section using a centered difference.  Specifically, for $n_i \ge 3$,
+Lower bound on $\norm[{[\alpha,\beta]}]{f''}$ can be derived similarly to the previous section using a centered difference.  Specifically, for $n_i \ge 3$,
 \begin{equation} \label{Fnormappxalg}
 F_{n}(f;[\alpha,\beta]) := \frac{(n-1)^2}{(\beta-\alpha)^2}\sup_{j=1, \ldots, n-2} \abs{f(x_j) - 2 f(x_{j+1})+f(x_{j+2})}.
 \end{equation}
 It follows using the H\"older's inequality that
 \begin{align*}
 F_{n}(f;[\alpha,\beta]) &= \frac{(n-1)^2}{(\beta-\alpha)^2}\sup_{j=1, \ldots, n-2}  \biggabs{\int_{x_j}^{x_{j+2}} \left[\frac{\beta-\alpha}{n-1} - \abs{x-x_{j+1}}\right] f''(x) \, \dif x} \\
-&\le\frac{(n-1)^2}{(\beta-\alpha)^2}\sup_{j=1, \ldots, n-2}  \norm[\infty]{f''} \int_{x_j}^{x_{j+2}} \abs{\frac{\beta-\alpha}{n-1} - \abs{x-x_{j+1}}} \, \dif x = \norm[\infty,{[\alpha,\beta]}]{f''}.
+&\le\frac{(n-1)^2}{(\beta-\alpha)^2}\sup_{j=1, \ldots, n-2}  \norm[{[\alpha,\beta]}]{f''} \int_{x_j}^{x_{j+2}} \abs{\frac{\beta-\alpha}{n-1} - \abs{x-x_{j+1}}} \, \dif x = \norm[{[\alpha,\beta]}]{f''}.
 \end{align*}
 
 
 Define\begin{multline}\label{estfirstderiv}
-G_n(f;[\alpha,\beta]) := \norm[\infty]{A_{n}(f,[\alpha,\beta])' - A_2(f,[\alpha,\beta])'} \\
+G_n(f;[\alpha,\beta]) := \norm[\infty]{A_{n}(f;[\alpha,\beta])' - A_2(f;[\alpha,\beta])'} \\
 = \sup_{j=1, \ldots, n-1} \left|\frac{n-1}{\beta-\alpha} [f(x_{j+1})-f(x_j)]-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}\right|.
 \end{multline}
 
 Note $G_n(f;[\alpha,\beta])$ never overestimates $\norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}}$ because
 
 \begin{align*}
-\norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}} & = \norm[{[\alpha,\beta]}]{f'-A_2(f,[\alpha,\beta])'}
-= \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }} \abs{f'(x) - A_{2}(f,[\alpha,\beta])'(x)} \\
+\norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}} & = \norm[{[\alpha,\beta]}]{f'-A_2(f;[\alpha,\beta])'}\\
+&= \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }} \abs{f'(x) - A_{2}(f;[\alpha,\beta])'(x)} \\
 &\ge \sup_{j=1, \ldots, n-1} \frac{n-1}{\beta-\alpha}\int_{x_j}^{x_{j+1}} \abs{f'(x) - \frac{f(\beta)-f(\alpha)}{\beta-\alpha}} \, \dif x \\
 &\ge \sup_{j=1, \ldots, n-1} \frac{n-1}{\beta-\alpha} \abs{\int_{x_j}^{x_{j+1}} \left[f'(x) -\frac{f(\beta)-f(\alpha)}{\beta-\alpha}\right] \, \dif x }\\
-&= \sup_{j=1, \ldots, n-1} \frac{n-1}{\beta-\alpha} \abs{f(x_{j+1})-f(x_j) - \frac{f(\beta)-f(\alpha)}{\beta-\alpha}} =G_n(f;[\alpha,\beta]).
+&= \sup_{j=1, \ldots, n-1} \frac{n-1}{\beta-\alpha} \abs{f(x_{j+1})-f(x_j) - \frac{f(\beta)-f(\alpha)}{\beta-\alpha}} \\
+&=G_n(f;[\alpha,\beta]).
 \end{align*}
 %Thus, we have $g_{-}(n,[\alpha,\beta]):=0$.
 %
 %
 %To find an upper bound on $\GYnorm{f} -G_n(f;[\alpha,\beta])$, note that
 %\begin{equation*}
-%\GYnorm{f} -G_n(f;[\alpha,\beta]) =\GYnorm{f}  - \GYnorm{A_{n}(f,[\alpha,\beta])} \le \GYnorm{f-A_{n}(f,[\alpha,\beta])} = \bignorm[\infty]{f' -A_{n_i}(f,[\alpha,\beta])'},
+%\GYnorm{f} -G_n(f;[\alpha,\beta]) =\GYnorm{f}  - \GYnorm{A_{n}(f;[\alpha,\beta])} \le \GYnorm{f-A_{n}(f;[\alpha,\beta])} = \bignorm[\infty]{f' -A_{n_i}(f;[\alpha,\beta])'},
 %\end{equation*}
-Since $(f-A_{n}(f,[\alpha,\beta]))(x)$ vanishes for $x=\alpha,\beta$. Using \eqref{fprimeintermsfdoubprime} it then follows that
+Since $(f-A_{n}(f;[\alpha,\beta]))(x)$ vanishes for $x=\alpha,\beta$. Using \eqref{fprimeintermsfdoubprime} it then follows that
 \begin{align*}
 & \ \ \ \norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}} -G_n(f;[\alpha,\beta]) \\
-& \le \bignorm[\infty]{f' -A_{n}(f,[\alpha,\beta])'} \\
+& \le \bignorm[\infty]{f' -A_{n}(f;[\alpha,\beta])'} \\
 & = \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n-1 }} \abs{f'(x) -\frac{n-1}{\beta-\alpha}[f(x_{j+1})-f(x_j)]} \\
 &=\frac{n-1}{\beta-\alpha} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n_i-1 }} \abs{ \int_{x_j}^{x_{j+1}} \frac{\partial v_j}{\partial x}(t,x) f''(t) \, \dif t} \\
 & \le \frac{n-1}{\beta-\alpha} \norm[{[\alpha, \beta]}]{f''} \sup_{\substack{x_j \le x \le x_{j+1}\\ j=1, \ldots, n_i-1 }} \int_{x_j}^{x_{j+1}} \abs{\frac{\partial v_j}{\partial x}(t,x)} \, \dif t \\
@@ -220,18 +240,40 @@ Since $(f-A_{n}(f,[\alpha,\beta]))(x)$ vanishes for $x=\alpha,\beta$. Using \eqr
 &= \frac{\beta-\alpha}{2(n-1)}\norm[{[\alpha, \beta]}]{f''}.
 \end{align*}
 
-Thus, we obtain
+Thus, we obtain if $ n>1+\tau_{[\alpha,\beta]}/2$
 \begin{gather*}
-G_n(f;[\alpha,\beta])\le \norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}} \le \frac{G_n(f;[\alpha,\beta])}{1-\tau_{[\alpha,\beta]}/(2n-2)}, \quad \forall f \in \cc_{\tau},
+G_n(f;[\alpha,\beta])\le \norm[{[\alpha, \beta]}]{f'-\frac{f(\beta)-f(\alpha)}{\beta-\alpha}} \le \frac{G_n(f;[\alpha,\beta])}{1-\tau_{[\alpha,\beta]}/(2n-2)} \quad \forall f \in \cc_{\vtau}.
 \end{gather*}
 
-Therefore,
+Therefore, we obtain
 \begin{align*}
-\norm[\infty]{f-A_{n}(f,[\alpha,\beta])}
-& \le \frac{(\beta-\alpha)^2}{8(n-1)^2}\norm[\infty]{f''}, \\
-& \le \frac{(\beta-\alpha)^2}{8(n-1)^2}\cdot\frac{\tau(\vol([\alpha,\beta]))G_n(f;[\alpha,\beta])}{1-\tau(\vol([\alpha,\beta]))(\beta-\alpha)/(2n-2)} \\
-& \le \frac{\tau(\vol([\alpha,\beta]))(\beta-\alpha)^2 G_n(f;[\alpha,\beta])}{4(n-1)(2n-2-\tau(\vol([\alpha,\beta]))(\beta-\alpha))}=\varepsilon_{[\alpha,\beta]}.
+& F_n(f;[\alpha,\beta]) \le \norm[{[\alpha,\beta]}]{f''} \le \frac{\tau_{[\alpha,\beta]}}{(\beta-\alpha)}\cdot\frac{G_n(f;[\alpha,\beta])}{1-\tau_{[\alpha,\beta]}/(2n-2)} \\
+\Rightarrow
+&\tau_{\min,n} =  \frac{F_{n}(f;[\alpha,\beta])}{G_{n}(f;[\alpha,\beta])/(\beta-\alpha)+F_{n}(f;[\alpha,\beta])/(2n_i-2)} \le \tau_{[\alpha,\beta]}\\
 \end{align*}
+
+And by \eqref{fdoubprimenorm}, we obtain
+$$\norm[{[\alpha,\beta]}]{f-A_{n}(f;[\alpha,\beta])} \le  \frac{\tau_{[\alpha,\beta]}(\beta-\alpha) G_n(f;[\alpha,\beta]) } {4(n-1)(2n-2 -\tau_{[\alpha,\beta]})} =\varepsilon_{[\alpha,\beta]}.$$
+
+Let $\vn=\{n_{[\alpha,\beta]}\}_{[\alpha,\beta] \in \cp}$ denote the number of points. Define
+\begin{align*}
+&\vA_{\vn}(f;\cp)=\{A_{n_{[\alpha,\beta]}}(f;[\alpha,\beta])\}_{[\alpha,\beta] \in \cp} \\
+ &\vG_{\vn}(f;\cp)=\{G_{n_{[\alpha,\beta]}}(f;[\alpha,\beta])\}_{[\alpha,\beta] \in \cp} \\
+&\vF_{\vn}(f;\cp)=\{F_{n_{[\alpha,\beta]}}(f;[\alpha,\beta])\}_{[\alpha,\beta] \in \cp} \\
+\end{align*}
+
+For simplification, we can denote
+$$\tau_{[t_{l-1},t_l]}=\tau_l,\qquad n_{[t_{l-1},t_l]}=n_l, \qquad  \varepsilon_{[t_{l-1},t_l]}=\varepsilon_l, \qquad l=1,\ldots,L$$
+where $L=|\cp|$ is the cardinality of $\cp$.
+%Therefore,
+%\begin{align*}
+%\norm[\infty]{f-A_{n}(f;[\alpha,\beta])}
+%& \le \frac{(\beta-\alpha)^2}{8(n-1)^2}\norm[\infty]{f''}, \\
+%& \le \frac{(\beta-\alpha)^2}{8(n-1)^2}\cdot\frac{\tau(\vol([\alpha,\beta]))G_n(f;[\alpha,\beta])}{1-\tau(\vol([\alpha,\beta]))(\beta-\alpha)/(2n-2)} \\
+%& \le \frac{\tau(\vol([\alpha,\beta]))(\beta-\alpha)^2 G_n(f;[\alpha,\beta])}{4(n-1)(2n-2-\tau(\vol([\alpha,\beta]))(\beta-\alpha))}=\varepsilon_{[\alpha,\beta]}.
+%\end{align*}
+
+
 
 %Then we know, for a partition $\cp$, we have
 %\begin{align*}
@@ -242,28 +284,29 @@ Therefore,
 
 
 \begin{algo}[Locally Adaptive Univariate Function Recovery] \label{multistageapproalgo}
-Let the sequence of algorithms $\{A_n\}$, $\{G_n\}$,  $\{F_n\}$, and $n$  be as described above. Set $L=1, \ l =1,\ldots,L$.
+Let the sequence of algorithms $\{\vA_{\vn}(\cdot;\cp)\}$, $\{\vG_{\vn}(\cdot;\cp)\}$,  $\{\vF_{\vn}(\cdot;\cp)\}$, and $\vn, \cp$  be as described above. Set $L=1, \ l =1,\ldots,L$.
 Choose integer $\tau_{\lo}, \tau_{\text{hi}}$, where $\tau_{\text{hi}} \ge \tau_{\lo}$ such that
-$$\tau_{[t_{l-1},t_l]} = \max\left\{ \left\lceil \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+t_i-t_{i-1}}} \right\rceil ,3\right\}.$$
-Then let $n_i= \left\lceil\frac{\tau_{[t_{l-1},t_l]}+1}{2}  \right\rceil+1, \ \varepsilon_{[t_{l-1},t_l]}=\infty.$ For any error tolerance $\varepsilon$ and input function $f$, do the following:
+$$\tau_l = \max\left\{ \left\lceil \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+t_i-t_{i-1}}} \right\rceil ,3\right\}.$$
+Then let $n_l= \left\lceil\frac{\tau_{[t_{l-1},t_l]}+1}{2}  \right\rceil+1, \ \varepsilon_l=\infty.$ For any error tolerance $\varepsilon$ and input function $f$, do the following:
 \begin{description}
-\item[Stage 1.\ Find the maximum error] If $\max\limits_{l=1,\ldots,L}\varepsilon_{[t_{l-1},t_l]} < \varepsilon,$ stop.
+\item[Stage 1.\ Find the maximum error] If $\max\limits_{l=1,\ldots,L}\varepsilon_l < \varepsilon,$ stop.
 Otherwise, find
-$$k = \arg\max\limits_{l=1,\ldots,L}\varepsilon_{[t_{l-1},t_l]}.$$
-\item[Stage 2.\ Compute{$\norm[\infty]{f'-\frac{f(t_k)-f(t_{k-1})}{t_k-t_{k-1}}}$} and bound {$\norm[\infty,{[t_{k-1},t_k]}]{f''}$}.] Compute $G_{n_k}(f)$ in \eqref{estfirstderiv} and $F_{n_k}(f)$ in \eqref{Fnormappxalg}.
-\item[Stage 3. Check the necessary condition for $f \in \cc_{\tau_{[t_{k-1},t_k]}}$.] Compute
+$$k = \arg\max\limits_{l=1,\ldots,L}\varepsilon_l.$$
+\item[Stage 2.\ Compute{$\norm[{[t_{k-1},t_k]}]{f'-\frac{f(t_k)-f(t_{k-1})}{t_k-t_{k-1}}}$} and bound {$\norm[{[t_{k-1},t_k]}]{f''}$}.] Compute $G_{n_k}(f;{[t_{k-1},t_k]})$ in \eqref{estfirstderiv} and $F_{n_k}(f;{[t_{k-1},t_k]})$ in \eqref{Fnormappxalg}.
+\item[Stage 3. Check the necessary condition for $f \in \cc_{\tau_k}$.] Compute
     \begin{align*}
-     \tau_{\min,n_k} =  \frac{F_{n_k}(f)}{G_{n_k}(f)/(t_k-t_{k-1})+F_{n_k}(f)/(2n_k-2)}.
+     \tau_{\min,n_k} =  \frac{F_{n_k}(f;{[t_{k-1},t_k]})}{G_{n_k}(f;{[t_{k-1},t_k]})/(t_k-t_{k-1})+F_{n_k}(f;{[t_{k-1},t_k]})/(2n_k-2)}.
     \end{align*}
-If $\tau_{[t_{k-1},t_k]} \ge \tau_{\min,n_k}$, then go to stage 4.  Otherwise, set $\tau_{[t_{k-1},t_k]} = 2\tau_{[t_{k-1},t_k]}$.  If $n_k \ge (\tau_{[t_{k-1},t_k]}+1)/2$, then go to stage 4.  Otherwise, go to Stage 5.
-\item[Stage 4. Check for convergence.] Estimate $\varepsilon_{[t_{k-1},t_k]}.$
+If $\tau_k \ge \tau_{\min,n_k}$, then go to stage 4.  Otherwise, set $\tau_k = 2\tau_k$.  If $n_k \ge (\tau_k+1)/2$, then go to stage 4.  Otherwise, go to Stage 5.
+\item[Stage 4. Check for convergence.] Estimate $\varepsilon_k.$
 $$\varepsilon_{[t_{l-1},t_l]}=\frac{\tau_{[t_{k-1},t_k]}(t_k-t_{k-1})G_{n_k}(f)}{4(n_k-1)(2n_k-2 - \tau_{[t_{k-1},t_k]})}.$$
 If $\varepsilon_{[t_{l-1},t_l]} < \varepsilon ,$ go to Stage 1. Otherwise go to Stage 5.
 \item[Stage 5.\ Double the initial number of points and split the interval]
 Let $L=L+1.$ Then
 \begin{align*}
-t_l&=t_{l-1}, \ n_l=n_{l-1},  \varepsilon_{[t_{l-1},t_l]}=\varepsilon_{[t_{l-2},t_{l-1}]} \text{ when } l > k.\\
-t_k&=\frac{t_{k-1}+t_k}{2}, \ \varepsilon_{[t_{k-1},t_k]}=\infty, \ \varepsilon_{[t_k,t_{k+1}]}=\infty.
+t_l=t_{l-1}, \qquad \ n_l&=n_{l-1}, \qquad \varepsilon_l=\varepsilon_{l-1}, \qquad \tau_l=\tau_{l-1}, \qquad \text{ when } l > k,\\
+t_k&=\frac{t_{k-1}+t_k}{2}, \qquad \varepsilon_k=\varepsilon_{k+1}=\infty, \\
+&  \tau_k=\tau_{k+1}=\max\left\{ \left\lceil \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+t_k-t_{k-1}}} \right\rceil ,3\right\}.
 \end{align*}
 Go to Stage 1.
 \end{description}
@@ -285,5 +328,24 @@ Go to Stage 1.
 %The algorithm is computationally stable, meaning that the minimum and maximum costs for all integrands, $f$, with fixed $\norm[\infty]{f'-\frac{f(b)-f(a)}{b-a}}$ or $\norm[\infty]{f''}$ are an $\varepsilon$-independent constant of each other.
 %\end{theorem}
 %
+
+
+\begin{theorem} \label{multistageappxthm}
+Let $\sigma >0$ be some fixed parameter, and let $\cb_{\sigma}=\{f \in  \mathcal{W}^{2,\infty} : \norm[\infty]{f''}\leq \sigma\}$. Let $A \in \ca(\cb_{\sigma}, \cl_{\infty}, \APP, \Lambda^{\std})$ be the non-adaptive linear spline defined by Algorithm \ref{nonadaptalgo}, and let $\varepsilon>0$ be the error tolerance. Then this algorithm succeeds for $f \in \cb_{\sigma}$, i.e., $\norm[\infty]{f - A(f,\varepsilon)} \le \varepsilon$, and the cost of this algorithm is $\left \lceil \sqrt{\sigma/(8\varepsilon)}\right \rceil + 1$, regardless of the size of $\norm[\infty]{f''}$.
+
+Let $A \in \ca(\cc_{\tau}, \cl_{\infty}, \APP, \Lambda^{\std})$ be the adaptive linear spline defined by Algorithm \ref{multistageapproalgo}, and let $\tau$, $n_1$, and $\varepsilon$ be the inputs and parameters described there. Let $\cc_\tau$ be the cone of functions defined in \eqref{coneappxdef}.  Then it follows that Algorithm \ref{multistageapproalgo} is successful for all functions in $\cc_{\tau}$,  i.e.,  $\norm[\infty]{f - A(f,\varepsilon)} \le \varepsilon$.  Moreover, the cost of this algorithm is bounded below and above as follows:
+\begin{multline}
+\max \left(\left \lceil\frac{\tau+1}{2} \right \rceil, \left \lceil \sqrt{\frac{(b-a)^2 \norm[\infty]{f''}}{8\varepsilon}} \right \rceil \right) +1 \\
+\le \max \left(\left \lceil\frac{\tau+1}{2} \right \rceil, \left \lceil \sqrt{\frac{\tau (b-a) \norm[\infty]{f'-
+\frac{f(b)-f(a)}{b-a}}}{8\varepsilon}} \right \rceil \right) +1 \\
+\le
+\cost(A,f;\varepsilon) \\
+\le \sqrt{\frac{\tau (b-a)  \norm[\infty]{f'-\frac{f(b)-f(a)}{b-a}}}{2\varepsilon}} + \tau + 4
+\le \sqrt{\frac{\tau (b-a)^2\norm[\infty]{f''} }{4\varepsilon}} + \tau + 4.
+\end{multline}
+The algorithm is computationally stable, meaning that the minimum and maximum costs for all integrands, $f$, with fixed $\norm[\infty]{f'-\frac{f(b)-f(a)}{b-a}}$ or $\norm[\infty]{f''}$ are an $\varepsilon$-independent constant of each other.
+\end{theorem}
+
+
 
 \end{document}
