@@ -284,10 +284,10 @@ where $L=|\cp|$ is the cardinality of $\cp$.
 
 
 \begin{algo}[Locally Adaptive Univariate Function Recovery] \label{multistageapproalgo}
-Let the sequence of algorithms $\{\vA_{\vn}(\cdot;\cp)\}$, $\{\vG_{\vn}(\cdot;\cp)\}$,  $\{\vF_{\vn}(\cdot;\cp)\}$, and $\vn, \cp$  be as described above. Set $L=1, \ l =1,\ldots,L$.
+Let the sequence of algorithms $\{\vA_{\vn}(\cdot;\cp)\}$, $\{\vG_{\vn}(\cdot;\cp)\}$,  $\{\vF_{\vn}(\cdot;\cp)\}$, and $\vn, \cp, a, b$  be as described above. Set $L=1$.
 Choose integer $\tau_{\lo}, \tau_{\text{hi}}$, where $\tau_{\text{hi}} \ge \tau_{\lo}$ such that
-$$\tau_l = \max\left\{ \left\lceil \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+t_i-t_{i-1}}} \right\rceil ,3\right\}.$$
-Then let $n_l= \left\lceil\frac{\tau_{[t_{l-1},t_l]}+1}{2}  \right\rceil+1, \ \varepsilon_l=\infty.$ For any error tolerance $\varepsilon$ and input function $f$, do the following:
+$$\tau_1 = \max\left\{  \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+b-a}}  ,3\right\}.$$
+Then let $n_1= \left\lceil\frac{\tau_1+1}{2}  \right\rceil+1, \ \varepsilon_1=\infty.$ For any error tolerance $\varepsilon$ and input function $f$, do the following:
 \begin{description}
 \item[Stage 1.\ Find the maximum error] If $\max\limits_{l=1,\ldots,L}\varepsilon_l < \varepsilon,$ stop.
 Otherwise, find
@@ -300,13 +300,13 @@ $$k = \arg\max\limits_{l=1,\ldots,L}\varepsilon_l.$$
 If $\tau_k \ge \tau_{\min,n_k}$, then go to stage 4.  Otherwise, set $\tau_k = 2\tau_k$.  If $n_k \ge (\tau_k+1)/2$, then go to stage 4.  Otherwise, go to Stage 5.
 \item[Stage 4. Check for convergence.] Estimate $\varepsilon_k.$
 $$\varepsilon_k=\frac{\tau_k(t_k-t_{k-1})G_{n_k}(f)}{4(n_k-1)(2n_k-2 - \tau_k)}.$$
-If $\varepsilon_{[t_{l-1},t_l]} < \varepsilon ,$ go to Stage 1. Otherwise go to Stage 5.
+If $\varepsilon_k < \varepsilon ,$ go to Stage 1. Otherwise go to Stage 5.
 \item[Stage 5.\ Double the initial number of points and split the interval]
 Let $L=L+1.$ Then
 \begin{align*}
-t_l=t_{l-1}, \qquad \ n_l&=n_{l-1}, \qquad \varepsilon_l=\varepsilon_{l-1}, \qquad \tau_l=\tau_{l-1}, \qquad \text{ when } l > k,\\
+t_l=t_{l-1}, \qquad \ n_l&=n_{l-1}, \qquad \varepsilon_l=\varepsilon_{l-1}, \qquad \tau_l=\tau_{l-1}, \qquad \text{ when } k < l \le L,\\
 t_k&=\frac{t_{k-1}+t_k}{2}, \qquad \varepsilon_k=\varepsilon_{k+1}=\infty, \\
-&  \tau_k=\tau_{k+1}=\max\left\{ \left\lceil \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+t_k-t_{k-1}}} \right\rceil ,3\right\}.
+&  \tau_k=\tau_{k+1}=\max\left\{ \tau_{\text{hi}} \left(\frac{\tau_{\lo}}{\tau_{\text{hi}}}\right)^{\frac{1}{1+t_k-t_{k-1}}}  ,3\right\}.
 \end{align*}
 Go to Stage 1.
 \end{description}
@@ -331,24 +331,58 @@ Go to Stage 1.
 
 
 \begin{theorem} \label{multistageappxthm}
-Let $\{\vA(\cdot;\cp)\}$ be the adaptive linear spline defined by Algorithm \ref{multistageapproalgo}, and let $L$, $\vtau$, and $\varepsilon$ be the inputs and parameters described there. Let $\cc_{\vtau}$ be the cone of functions defined in \eqref{coneappxdef}.  Then it follows that Algorithm \ref{multistageapproalgo} is successful for all functions in $\cc_{\vtau}$,  i.e.,  $\norm[\infty]{f - \vA(f,\varepsilon;\cp)} \le \varepsilon$.  Moreover, the cost of this algorithm is bounded below and above as follows:
-$$
-\cost(\vA,f;\cp,\varepsilon) \le \sqrt{\frac{\norm[\infty]{\vtau}(b-a)^2\norm[{[a,b]}]{f''}}{4\varepsilon}}+\norm[1]{\vtau}+4L.$$
+Let $\{\vA(\cdot;\cp)\}$ be the adaptive linear spline defined by Algorithm \ref{multistageapproalgo}, and let $\cp$, $\vtau_{\cp}$, and $\varepsilon$ be the inputs and parameters described there and $L=|\cp|$. Let $\cc_{\vtau}$ be the cone of functions defined in \eqref{coneappxdef}.  Then it follows that Algorithm \ref{multistageapproalgo} is successful for all functions in $\cc_{\vtau}$,  i.e.,  $\norm[\infty]{f - \vA(f,\varepsilon;\cp)} \le \varepsilon$.  Moreover, the cost of this algorithm is bounded below and above as follows:
+\begin{multline}
+%\max \left(\left \lceil\frac{\tau+1}{2} \right \rceil, \left \lceil \sqrt{\frac{(b-a)^2 \norm[\infty]{f''}}{8\varepsilon}} \right \rceil \right) +1 \\
+%\le \max \left(\left \lceil\frac{\tau+1}{2} \right \rceil, \left \lceil \sqrt{\frac{\tau (b-a) \norm[\infty]{f'-
+%\frac{f(b)-f(a)}{b-a}}}{8\varepsilon}} \right \rceil \right) +1 \\
+%\le
+\cost(\vA,f;\cp,\varepsilon) \\
+\le \sqrt{\frac{1}{2\varepsilon}}\sum\limits_{k=1}^{L}\sqrt{\tau_k(t_k-t_{k-1})\norm[{[t_{k-1},t_k]}]{f'-\frac{f(t_k)-f(t_{k-1})}{t_k-t_{k-1}}}}+\norm[1]{\vtau}+4L
+\\
+\le \sqrt{\frac{1}{4\varepsilon}}\sum\limits_{k=1}^{L}\sqrt{\tau_k(t_k-t_{k-1})^2\norm[{[t_{k-1},t_k]}]{f''}}+\norm[1]{\vtau}+4L
+ \end{multline}
+
 The algorithm is computationally stable, meaning that maximum costs for all functions, $f$, with fixed $\norm[\infty]{f''}$ are an $\varepsilon$-independent constant of each other.
 \end{theorem}
 \begin{proof}
+At first, we would like to prove $L$, the cardinality of $\cp$ is bounded.
+
+According to our algorithm, we know the length of each subinterval $$t_k-t_{k-1}=\left(\frac{1}{2}\right)^{m_k}(b-a),$$ where $m_k \in \mathbb{N}$.
+And for each subinterval $[t_{k-1},t_k] \subset \cp$, we have the same number of points $n_k$ and a fixed $\tau_k$. Then we know
+$$\frac{\tau_k(t_k-t_{k-1}) G_{n_k}(f;[t_{k-1},t_k]) } {4(n_k-1)(2n_k-2 -\tau_k)} \le \varepsilon \Leftrightarrow 
+\frac{\tau_k \left(\frac{1}{2}\right)^{m_k}(b-a) G_{n_k}(f;[t_{k-1},t_k]) } {4(n_k-1)(2n_k-2 -\tau_k)} \le \varepsilon.$$
+And we know 
+$$\frac{\tau_k\left(\frac{1}{2}\right)^{m_k}(b-a)  G_{n_k}(f;[t_{k-1},t_k]) } {4(n_k-1)(2n_k-2 -\tau_k)} 
+\le \frac{\tau_k\left(\frac{1}{2}\right)^{2m_k}(b-a)^2 \norm[{[t_{k-1},t_k]}]{f''} }{8(n_k-1)(2n_k-2 -\tau_k)} \le \varepsilon.$$
+Hence, we know
+$$m_k \ge \frac{1}{2}\frac{\log{\frac{8\varepsilon(n_k-1)(2n_k-2 -\tau_k)}{\tau_k(b-a)^2 \norm[{[t_{k-1},t_k]}]{f''}}}}{\log{\frac{1}{2}}}
+=\frac{1}{2}\frac{\log{\frac{\tau_k(b-a)^2 \norm[{[t_{k-1},t_k]}]{f''}}{8\varepsilon(n_k-1)(2n_k-2 -\tau_k)}}}{\log{2}}.$$
+Then we can let $m_k=\left\lceil\frac{1}{2}\frac{\log{\frac{\tau_k(b-a)^2 \norm[{[t_{k-1},t_k]}]{f''}}{8\varepsilon(n_k-1)(2n_k-2 -\tau_k)}}}{\log{2}}
+\right\rceil$. And as $\norm[{[t_{k-1},t_k]}]{f''}$ is bounded, $n_k$ and $\tau_k$ are fixed, $m_k$ is also bounded.
+Suppose $[t_{k-1},t_k]$ is the smallest interval, then $L \le 2^{m_k} $ is also bounded.\\
+
+Next, we investigate the cost of our algorithm.
 For each subinterval $[t_{k-1},t_k] \subset \cp,$ we want
 $$\frac{\tau_k(t_k-t_{k-1}) G_{n_k}(f;[t_{k-1},t_k]) } {4(n_k-1)(2n_k-2 -\tau_k)} \le \varepsilon.$$
-And we know that 
-$$\frac{\tau_k(t_k-t_{k-1}) G_{n_k}(f;[t_{k-1},t_k]) } {4(n_k-1)(2n_k-2 -\tau_k)} \le \frac{\tau_k(t_k-t_{k-1})^2 \norm[{[t_{k-1},t_k]}]{f''} }{8(n_k-1)(2n_k-2 -\tau_k)}$$ 
+And we know that
+\begin{multline*}
+\frac{\tau_k(t_k-t_{k-1}) G_{n_k}(f;[t_{k-1},t_k]) } {4(n_k-1)(2n_k-2 -\tau_k)} \\
+\le  \frac{\tau_k(t_k-t_{k-1})\norm[{[t_{k-1},t_k]}]{f'-\frac{f(t_k)-f(t_{k-1})}{t_k-t_{k-1}}} }{4(n_k-1)(2n_k-2 -\tau_k)}\\
+\le \frac{\tau_k(t_k-t_{k-1})^2 \norm[{[t_{k-1},t_k]}]{f''} }{8(n_k-1)(2n_k-2 -\tau_k)}
+\end{multline*}
 i.e.
-$$n_k \le \sqrt{\frac{\tau_k (t_k-t_{k-1})^2\norm[{[t_{k-1},t_k]}]{f''} }{4\varepsilon}} + \tau_k + 4.$$
+\begin{multline*}
+n_k \le \sqrt{\frac{\tau_k (t_k-t_{k-1})\norm[{[t_{k-1},t_k]}]{f'-\frac{f(t_k)-f(t_{k-1})}{t_k-t_{k-1}}} }{2\varepsilon}} + \tau_k + 4\\
+\le \sqrt{\frac{\tau_k (t_k-t_{k-1})^2\norm[{[t_{k-1},t_k]}]{f''} }{4\varepsilon}} + \tau_k + 4.
+\end{multline*}
 Hence,
-\begin{align*}
-\cost(\vA,f;\cp,\varepsilon)&=\sum\limits_{k=1}^{L}n_k \leq\sum\limits_{k=1}^{L}\left[\sqrt{\frac{\tau_k (t_k-t_{k-1})^2\norm[{[t_{k-1},t_k]}]{f''} }{4\varepsilon}} + \tau_k + 4\right]\\
-& \leq  \sqrt{\frac{\norm[\infty]{\vtau}\norm[{[a,b]}]{f''} }{4\varepsilon}}\sum\limits_{k=1}^{L} (t_k-t_{k-1})+ \sum\limits_{k=1}^{L}\tau_k + 4L\\
-& =\sqrt{\frac{\norm[\infty]{\vtau}(b-a)^2\norm[{[a,b]}]{f''}}{4\varepsilon}}+\norm[1]{\vtau}+4L.\\
-\end{align*}
+\begin{multline*}
+\cost(\vA,f;\cp,\varepsilon)=\sum\limits_{k=1}^{L}n_k \\
+\le \sqrt{\frac{1}{2\varepsilon}}\sum\limits_{k=1}^{L}\sqrt{\tau_k(t_k-t_{k-1})\norm[{[t_{k-1},t_k]}]{f'-\frac{f(t_k)-f(t_{k-1})}{t_k-t_{k-1}}}}+\norm[1]{\vtau}+4L
+\\
+\le \sqrt{\frac{1}{4\varepsilon}}\sum\limits_{k=1}^{L}\sqrt{\tau_k(t_k-t_{k-1})^2\norm[{[t_{k-1},t_k]}]{f''}}+\norm[1]{\vtau}+4L
+\end{multline*}
 \end{proof}
 
 
